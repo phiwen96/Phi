@@ -26,6 +26,16 @@ ifeq ($(detected_OS),Windows)
 	CXX_INCLUDES += -I$(VULKAN_DIR)\Include
 endif
 ifeq ($(detected_OS),Darwin)
+	VULKAN_VERSION = 1.3.236.0
+	VULKAN_SDK = /Users/philipwenkel/VulkanSDK/$(VULKAN_VERSION)
+	LIB_NLOHMANN := /opt/homebrew/Cellar/nlohmann-json/3.11.3
+	LIB_OPENSSL := /opt/homebrew/Cellar/openssl@3/3.2.0_1
+	LIB_BOOST := /opt/homebrew/Cellar/boost/1.83.0
+	LIB_GLFW := /opt/homebrew/Cellar/glfw/3.3.9
+	GLSLC_COMPILER = $(VULKAN_SDK)/macOS/bin/glslc
+	GCC = /opt/homebrew/Cellar/gcc/13.2.0/bin/g++-13
+	CXX_FLAGS += -D MACOS #-D FONTS_DIR=\"/System/Library/Fonts/Supplemental\"
+	# CXX_LIBS = -L/opt/homebrew/lib
 	
 	ifeq ($(USE_GLFW), TRUE) 
 		# $(info $$USE_GLFW is [${USE_GLFW}])
@@ -48,16 +58,6 @@ ifeq ($(detected_OS),Darwin)
 		CXX_INCLUDES += -I$(LIB_NLOHMANN)/include
 	endif
 	
-	VULKAN_VERSION = 1.3.236.0
-	VULKAN_SDK = /Users/philipwenkel/VulkanSDK/$(VULKAN_VERSION)
-	LIB_NLOHMANN := /opt/homebrew/Cellar/nlohmann-json/3.11.3
-	LIB_OPENSSL := /opt/homebrew/Cellar/openssl@3/3.2.0_1
-	LIB_BOOST := /opt/homebrew/Cellar/boost/1.83.0
-	LIB_GLFW := /opt/homebrew/Cellar/glfw/3.3.9
-	GLSLC_COMPILER = $(VULKAN_SDK)/macOS/bin/glslc
-	GCC = /opt/homebrew/Cellar/gcc/13.2.0/bin/g++-13
-	CXX_FLAGS += -D MACOS #-D FONTS_DIR=\"/System/Library/Fonts/Supplemental\"
-	# CXX_LIBS = -L/opt/homebrew/lib
 endif
 ifeq ($(detected_OS),Linux)
 	# LIB_OPENSSL := /usr/include/openssl
