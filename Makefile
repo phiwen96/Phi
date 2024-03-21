@@ -70,5 +70,40 @@ ifeq ($(detected_OS),Linux)
 	CXX_INCLUDES += -I/usr/include/freetype2 
 endif
 
-Phi: Phi.cpp
-	$(GCC) $(CXX_FLAGS) -Werror=unused-result -o $@ $< $(CXX_LIBS) $(CXX_INCLUDES)
+# $(INT_DST)/Net.o: $(INT_SRC)/Net.cpp $(Net_MODULES)
+# 	$(GCC) $(CXX_FLAGS) -c $< $(CXX_INCLUDES) -o $@
+
+VERSION := "0.0.0"
+
+PROJ_DIR := $(CURDIR)
+BUILD_DIR := $(PROJ_DIR)/build
+MODULES_SRC_DIR := $(PROJ_DIR)/modules
+MODULES_DST_DIR := $(BUILD_DIR)/$(VERSION)/modules
+APPS_SRC_DIR := $(PROJ_DIR)/apps
+APPS_DST_DIR := $(BUILD_DIR)/$(VERSION)
+CXX_FLAGS += -D PHI_MODULE_PATH="\"$(MODULES_DST_DIR)/Phi\""
+
+_BUILD_DIRS := $(VERSION)/modules $(VERSION)/docs
+BUILD_DIRS := $(foreach dir, $(_BUILD_DIRS), $(addprefix $(BUILD_DIR)/, $(dir)))
+
+directories := $(foreach dir, $(BUILD_DIRS), $(shell [ -d $(dir) ] || mkdir -p $(dir)))
+
+all: $(APPS_DST_DIR)/phi
+
+$(MODULES_DST_DIR)/Phi: $(MODULES_SRC_DIR)/Phi.cpp
+	$(GCC) $(CXX_FLAGS) -c $< -o $@
+
+$(APPS_DST_DIR)/phi: $(APPS_SRC_DIR)/Phi.cpp $(MODULES_DST_DIR)/Phi
+	$(GCC) $(CXX_FLAGS) -Werror=unused-result -o $@ $^ $(CXX_LIBS) $(CXX_INCLUDES)
+
+clean:
+	# @rm -f Vulkan.Pipeline.Cache
+	# @rm -f libDelta.a
+	@rm -rf gcm.cache
+	@rm -f *.o
+	@rm -f *.pcm 
+	@rm -f *.spv
+	@rm -f *.pem
+	# @rm -f $(apps)
+	# @rm -f $(tests)
+	@rm -rf $(BUILD_DIR)
