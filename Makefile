@@ -81,9 +81,11 @@ MODULES_SRC_DIR := $(PROJ_DIR)/modules
 MODULES_DST_DIR := $(BUILD_DIR)/$(VERSION)/modules
 APPS_SRC_DIR := $(PROJ_DIR)/apps
 APPS_DST_DIR := $(BUILD_DIR)/$(VERSION)
-CXX_FLAGS += -D PHI_MODULE_PATH="\"$(MODULES_DST_DIR)/Phi\""
+BUILDS_DIR := $(VERSION)/builds
 
-_BUILD_DIRS := $(VERSION)/modules $(VERSION)/docs
+CXX_FLAGS += -D PHI_MODULE_PATH="\"$(MODULES_DST_DIR)/Phi\"" -D COMPILER_PATH="\"$(GCC)\"" -D BUILDS_DIR="\"$(BUILDS_DIR)\""#-D FLAGS="\"$(CXX_FLAGS)\""
+
+_BUILD_DIRS := $(VERSION)/modules $(VERSION)/docs $(VERSION)/builds
 BUILD_DIRS := $(foreach dir, $(_BUILD_DIRS), $(addprefix $(BUILD_DIR)/, $(dir)))
 
 directories := $(foreach dir, $(BUILD_DIRS), $(shell [ -d $(dir) ] || mkdir -p $(dir)))

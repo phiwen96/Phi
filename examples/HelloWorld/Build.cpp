@@ -10,8 +10,9 @@ auto main (int argc, char** argv) -> int {
 	auto app = build_app {
 		.name = "MyApp",
 		.path = "myapp.cpp"
-		.modules = lib
+		// .modules = {lib}
 	};
 
-	return app.build ();
+	// return app.build ();
+	return 0;
 }
