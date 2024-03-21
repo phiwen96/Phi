@@ -19,8 +19,9 @@ auto main (int argc, char** argv) -> int {
 	auto build_target = std::string {argv [1]};
 	auto build_dst = std::string {BUILDS_DIR} + std::string {"/"} + remove_extension (basename (build_target));
 	auto compiler = std::string {COMPILER_PATH};
-	auto flags = std::string {" -D DEBUG -std=gnu++23 -fmodules-ts -fcompare-debug-second -O2 -fno-trapping-math -fno-math-errno -fno-signed-zeros"};
-	auto console_command = compiler + flags + std::string {" -o "} + build_dst + std::string {" "} + build_target + std::string {" "} + std::string {PHI_MODULE_PATH};
+	auto flags = std::string {CXX_FLAGS};//std::string {" -D DEBUG -std=gnu++23 -fmodules-ts -fcompare-debug-second -O2 -fno-trapping-math -fno-math-errno -fno-signed-zeros"};
+	// std::cout << "flags >> " << flags << std::endl;
+	auto console_command = compiler + std::string {" "} + flags + std::string {" -o "} + build_dst + std::string {" "} + build_target + std::string {" "} + std::string {PHI_MODULE_PATH};
 	// std::cout << "compiling build >> " << console_command << std::endl << std::endl;
 	std::cout << "compiling build" << std::endl;
 	// return 0;

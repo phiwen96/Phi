@@ -5,7 +5,7 @@ import Phi;
 auto main (int argc, char** argv) -> int {
 
 	auto lib = build_module {
-		.name = "MyApp",
+		.name = "HelloWorld",
 		.path = "MyApp.cpp"
 	};
 

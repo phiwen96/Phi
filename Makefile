@@ -1,7 +1,7 @@
 CXX = clang++
 # --verbose
 ############### C++ compiler flags ###################
-CXX_FLAGS = -D DEBUG -std=gnu++23 -fmodules-ts -fcompare-debug-second -O2 -fno-trapping-math -fno-math-errno -fno-signed-zeros # -Wno-attributes -fconcepts-diagnostics-depth=2
+_CXX_FLAGS = -D DEBUG -std=gnu++23 -fmodules-ts -fcompare-debug-second -O2 -fno-trapping-math -fno-math-errno -fno-signed-zeros # -Wno-attributes -fconcepts-diagnostics-depth=2
 CXX_MODULES = -fmodules-ts -fmodules -fbuiltin-module-map -fimplicit-modules -fimplicit-module-maps -fprebuilt-module-path=.
 
 CXX_APP_FLAGS = -lpthread 
@@ -83,7 +83,7 @@ APPS_SRC_DIR := $(PROJ_DIR)/apps
 APPS_DST_DIR := $(BUILD_DIR)/$(VERSION)
 BUILDS_DIR := $(BUILD_DIR)/$(VERSION)/builds
 
-CXX_FLAGS += -D PHI_MODULE_PATH="\"$(MODULES_DST_DIR)/Phi\"" -D COMPILER_PATH="\"$(GCC)\"" -D BUILDS_DIR="\"$(BUILDS_DIR)\""#-D FLAGS="\"$(CXX_FLAGS)\""
+CXX_FLAGS := $(_CXX_FLAGS) -D PHI_MODULE_PATH="\"$(MODULES_DST_DIR)/Phi\"" -D COMPILER_PATH="\"$(GCC)\"" -D BUILDS_DIR="\"$(BUILDS_DIR)\""#-D FLAGS="\"$(CXX_FLAGS)\""
 
 _BUILD_DIRS := $(VERSION)/modules $(VERSION)/docs $(VERSION)/builds
 BUILD_DIRS := $(foreach dir, $(_BUILD_DIRS), $(addprefix $(BUILD_DIR)/, $(dir)))
@@ -96,7 +96,7 @@ $(MODULES_DST_DIR)/Phi: $(MODULES_SRC_DIR)/Phi.cpp
 	$(GCC) $(CXX_FLAGS) -c $< -o $@
 
 $(APPS_DST_DIR)/phi: $(APPS_SRC_DIR)/Phi.cpp $(MODULES_DST_DIR)/Phi
-	$(GCC) $(CXX_FLAGS) -Werror=unused-result -o $@ $^ $(CXX_LIBS) $(CXX_INCLUDES)
+	$(GCC) $(CXX_FLAGS) -D CXX_FLAGS="\"$(_CXX_FLAGS)\"" -Werror=unused-result -o $@ $^ $(CXX_LIBS) $(CXX_INCLUDES)
 
 clean:
 	# @rm -f Vulkan.Pipeline.Cache
