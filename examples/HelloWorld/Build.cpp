@@ -1,4 +1,6 @@
+#include <vector>
 import Phi;
+
 
 auto main (int argc, char** argv) -> int {
 
@@ -9,10 +11,9 @@ auto main (int argc, char** argv) -> int {
 
 	auto app = build_app {
 		.name = "MyApp",
-		.path = "myapp.cpp"
-		// .modules = {lib}
+		.path = "myapp.cpp",
+		.modules = {lib}
 	};
 
-	// return app.build ();
-	return 0;
+	return app.build ();
 }
