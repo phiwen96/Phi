@@ -21,7 +21,11 @@ auto main (int argc, char** argv) -> int {
 	auto compiler = std::string {COMPILER_PATH};
 	auto flags = std::string {" -D DEBUG -std=gnu++23 -fmodules-ts -fcompare-debug-second -O2 -fno-trapping-math -fno-math-errno -fno-signed-zeros"};
 	auto console_command = compiler + flags + std::string {" -o "} + build_dst + std::string {" "} + build_target + std::string {" "} + std::string {PHI_MODULE_PATH};
-	std::cout << "Running command >> " << console_command << std::endl << std::endl;
+	std::cout << "compiling build >> " << console_command << std::endl << std::endl;
+	// return 0;
+	std::system (console_command.c_str ());
+	std::cout << "executing build" << std::endl;
+	console_command = build_dst;
 	std::system (console_command.c_str ());
 	// std::cout << "yo" << std::endl;
 	return 0;
